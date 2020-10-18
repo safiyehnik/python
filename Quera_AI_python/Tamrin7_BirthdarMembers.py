@@ -12,4 +12,3 @@ convert_mid = "{:.2f}".format(mid)
 print(convert_average)
 print(convert_mid)
 print(mod)
-
