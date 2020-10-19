@@ -78,7 +78,7 @@ def send_SMS_Multiuser():
             else:
                 print(operator_name)
                 phone_number, sms_status = send_sms(phone, sms)
-                print(phone_number, sms_status)
+                #print(phone_number, sms_status)
 
 
 
