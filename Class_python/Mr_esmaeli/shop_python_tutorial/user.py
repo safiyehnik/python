@@ -101,6 +101,16 @@ password   : {password}
             return f"user with this username: {username} & password: {password}  login in database"
 
     @classmethod
+    def logout(cls, username=None, password=None):
+        if cls.__db_login != []:
+            for user in cls.__user_db:
+                if user.get("username") == username and user.get("password") == password:
+                    cls.__db_login.remove(user)
+                    return f"user with username: {username} & password: {password} logout"
+            return "user not found"
+        return "database is empty"
+
+    @classmethod
     def get_session_user(cls):
         return cls.__db_login
 

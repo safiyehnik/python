@@ -29,11 +29,16 @@ for num, title in a.items():
 
 print("*****************************")
 user_input = input("Enter your number:")
-if user_input == "1" or "2" or "3" or "4" or "5" or "6" or "7" or "8" or "9" or "11":
+if user_input == "17":
+    a = User.login()
+    print(a)
+    user_input = input("Enter your number")
+else:
     print("you don't have any permission please first login")
     a = User.login()
     print(a)
     user_input = input("Enter your number:")
+
 while True:
     if user_input == "1":
         name = input("name: ")
@@ -126,6 +131,11 @@ while True:
 
     if user_input == "17":
         print(User.login())
+
+    if user_input == "18":
+        username = input("please enter your <<phone_number>> for username: ")
+        password = input("please enter your password: ")
+        print(User.logout(username, password))
 
 
 
