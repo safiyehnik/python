@@ -27,18 +27,45 @@ print("---------- Welcome ----------")
 for num, title in a.items():
     print(f"{num}: {title}")
 
-print("*****************************")
+print(''''
+*****************************
+*   Welcome to Online shop  *
+*****************************
+you could select 
+number [17] for login
+number [10] for register customer
+number [12] for register admin
+ ''')
 user_input = input("Enter your number:")
 if user_input == "17":
-    a = User.login()
-    print(a)
+    print('''
+--> Welcome to login <---"
+import [username] & [password]
+        ''')
+    print(User.login())
     user_input = input("Enter your number")
-else:
-    print("you don't have any permission please first login")
-    a = User.login()
-    print(a)
+elif user_input == "12":
+    print('''
+**** Welcome to Register Admin ****"
+import your information for login as ADMIN
+            ''')
+    firstname = input("please enter your firstname: ")
+    lastname = input("please enter your lastname: ")
+    username = input("please enter your <<phone_number>> for username: ")
+    password = input("please enter your password: ")
+    print(User.register_admin(firstname, lastname, username, password))
     user_input = input("Enter your number:")
-
+elif user_input == "10":
+        print('''
+**** welcome to Register Customer ****
+import your information for login as Customer
+    ''')
+        firstname = input("please enter your firstname: ")
+        lastname = input("please enter your lastname: ")
+        username = input("please enter your <<phone_number>> for username: ")
+        password = input("please enter your password: ")
+        print(User.register_customer(firstname, lastname, username, password))
+        user_input = input("Enter your number:")
 while True:
     if user_input == "1":
         name = input("name: ")
@@ -105,7 +132,7 @@ while True:
         lastname = input("please enter your lastname: ")
         username = input("please enter your <<phone_number>> for username: ")
         password = input("please enter your password: ")
-        print(User.is_customer(firstname, lastname, username, password))
+        print(User.register_customer(firstname, lastname, username, password))
 
     if user_input == "11":
         print('''
@@ -116,7 +143,7 @@ while True:
         lastname = input("please enter your lastname: ")
         username = input("please enter your <<phone_number>> for username: ")
         password = input("please enter your password: ")
-        print(User.is_employee(firstname, lastname, username, password))
+        print(User.register_employee(firstname, lastname, username, password))
 
     if user_input == "12":
         print('''
@@ -127,7 +154,7 @@ while True:
         lastname = input("please enter your lastname: ")
         username = input("please enter your <<phone_number>> for username: ")
         password = input("please enter your password: ")
-        print(User.is_admin(firstname, lastname, username, password))
+        print(User.register_admin(firstname, lastname, username, password))
 
     if user_input == "17":
         print(User.login())
