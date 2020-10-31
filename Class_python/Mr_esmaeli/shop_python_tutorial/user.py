@@ -1,8 +1,8 @@
 from enums import RoleEnum
-
+from session import Session
 
 class User:
-    __db_login = []
+
     __user_db = []
 
     @classmethod
@@ -28,6 +28,8 @@ password   : {password}
 
     @classmethod
     def register_employee(cls, first_name: str = None, last_name: str = None, username: str = None, password: str = None):
+        if not Session.is_admin():
+            return False, "you don't have any permission "
         if not cls.check_user(first_name, last_name):
             user = {
                 "first_name": first_name,
@@ -37,7 +39,8 @@ password   : {password}
                 "role_is": RoleEnum.EMPLOYEE
             }
             cls.__user_db.append(user)
-            return f'''*** you register successfully ***
+            return f'''
+*** you register successfully ***
 check your information
 first_name : {first_name}
 last_name  : {last_name}
@@ -58,8 +61,9 @@ password   : {password}
                 "role_is": RoleEnum.CUSTOMER
             }
             cls.__user_db.append(user)
-            return f'''*** you register successfully ***
-            check your information
+            return f'''
+*** you register successfully ***
+check your information
 first_name : {first_name}
 last_name  : {last_name}
 username   : {username}
@@ -77,7 +81,7 @@ password   : {password}
 
     @classmethod
     def check_login(cls, username, password):
-        for user in cls.__db_login:
+        for user in Session.get_session():
             if user.get("username") == username and user.get("password") == password:
                 return True
         return False
@@ -90,50 +94,42 @@ password   : {password}
             if not cls.check_login(username, password):
                 for user in cls.__user_db:
                     if user.get("username") == username and user.get("password") == password:
-                        cls.__db_login.append(user)
-                        return "you login successfully"
+
+                        Session.get_session().append(user)
+                        return"you login successfully"
+
                 return f'''
  you don't have any permission
   please first register 
   [12] for register admin
   [10] for register customer
                 '''
+
             else:
                 return f"user with this username: {username} & password: {password}  login in database"
-        return "you forgot enter username & password  "
+        return "you forgot enter username & password"
 
     @classmethod
     def logout(cls, username=None, password=None):
-        if cls.__db_login != []:
+        if Session.get_session():
             for user in cls.__user_db:
                 if user.get("username") == username and user.get("password") == password:
-                    cls.__db_login.remove(user)
+                    Session.get_session().remove(user)
                     return f"user with username: {username} & password: {password} logout"
             return "user not found"
         return "database is empty"
 
-    @classmethod
-    def get_session_user(cls):
-        return cls.__db_login
 
     @classmethod
     def get_all_user(cls):
         return cls.__user_db
 
-    @classmethod
-    def is_admin(cls, username, password):
-        for user in cls.__user_db:
-            if user.get("username") == username and user.get("password") == password and user.get("role_is") == "Admin":
-                return "you login as admin successfully -> you have full access"
-        return "sorry you are not admin"
 
 
 
 
-
-
-print(User.register_admin("safiyeh", "nikkhah","09153218364","safa"))
-print(User.is_admin("09153218364","safa"))
+#print(User.register_employee("safiyeh", "nikkhah","09153218364","safa"))
+#print(User.is_admin("09153218364","safa"))
 #print(User.get_all_user())
 #print(User.check_user("safiyeh","nikkhah"))
 #User.is_admin("safiyeh", "nikkhah", "saf", "09153218364")
@@ -143,4 +139,5 @@ print(User.is_admin("09153218364","safa"))
 #print(User.get_all_user())
 #print(User.login())
 #print(User.login())
+#print(User.logout("09153218364","safa"))
 #print(User.get_session_user())

@@ -1,0 +1,12 @@
+[
+  {
+    "product_id":"24",
+    "category_id":"2",
+    "productName":"sportShoes",
+    "productPrice": 200000,
+    "productOff": 10,
+    "userRole" : "customer",
+    "numberOfOrder" : 3
+
+  }
+]

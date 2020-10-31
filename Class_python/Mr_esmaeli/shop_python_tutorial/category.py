@@ -1,19 +1,23 @@
 import itertools
+from session import Session
 
 
 class Category:
     __db = []
     __id = itertools.count(1)
 
-    def save(self, name):
+    def save(self, name: str = None) -> (bool, str):
+        if not Session.is_admin():
+            return False, "you don't have any permission "
         # self.__db.append({"id": next(self.__id), "name": name})
-
+        if name:
+            return False, "you forgot enter name"
         if not self.exist(name):
-            id = next(self.__id)
-            self.__db.append({"id": id, "name": name})
-            return True
+                id = next(self.__id)
+                self.__db.append({"id": id, "name": name})
+                return True, ""
         else:
-            return False
+            return False, f"category {name} exists "
 
     def exist(self, name: str = None) -> bool:
         if name:
@@ -37,7 +41,8 @@ class Category:
             return {}
 
     def delete(self, id):
-
+        if not Session.is_admin():
+            return False, "you don't have any permission "
         for num, category in enumerate(self.__db, 0):
             if category.get("id") == id:
                 del self.__db[num]
@@ -46,6 +51,8 @@ class Category:
 
     @classmethod
     def update(cls, new_name, id: int):
+        if not Session.is_admin():
+            return False, "you don't have any permission "
         for num, category in enumerate(cls.__db, 0):
             if category.get("id") == id:
                 category["name"] = new_name
@@ -61,7 +68,7 @@ class Category:
 
 
 #a = Category()
-#a.save("shoes")
+#print(a.save("shoes"))
 #a.save("cloth")
 #print(a.exist("shoes"))
 # a.delete(1)

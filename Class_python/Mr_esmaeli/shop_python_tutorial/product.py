@@ -1,12 +1,14 @@
 import itertools
 from category import Category
-
+from session import Session
 
 class Product:
     __db = []
     __id = itertools.count(1)
 
-    def save(self, name=None, price=None, category=None, off=None):
+    def save(self, name=None, price=None, category=None, off=None) -> (bool, str):
+        if not Session.is_admin():
+            return False, "you don't have any permission "
         new_category = Category.get_one_category(category)
         if new_category:
             g = {
@@ -17,9 +19,10 @@ class Product:
                 "off": float(off)
             }
             self.__db.append(g)
-            return True
+            return True, f"product {name} add successfully "
         else:
-            return False
+            return False, f"category {category} not exist" \
+                          f"plese first add category {category}  "
 
     @classmethod
     def get_products_db(cls):
@@ -31,11 +34,15 @@ class Product:
 
     @classmethod
     def delete(cls, id):
+        if not Session.is_admin():
+            return False, "you don't have any permission "
         for product in cls.__db:
             if id == product.__id:
                 cls.__db.remove(product)
     @classmethod
     def update(cls, id: int, new_name: str, new_price: int, new_category: str, new_off: float):
+        if not Session.is_admin():
+            return False, "you don't have any permission "
         if new_category:
             if not Category().exist(new_category):
                 return f"category: {new_category} not found please first add new category"
