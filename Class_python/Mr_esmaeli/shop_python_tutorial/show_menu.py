@@ -24,9 +24,9 @@ admin_athorities = {
 }
 
 non_admin_user_auth_tasks = {
-    "10": "login",
-    "12": "login",
-    "17": "logout"
+    "10": "Register Customer",
+    "17": "login",
+    "18": "logout"
 }
 
 welcome_tasks = {
@@ -51,17 +51,17 @@ number [17] for login
 number [10] for register customer
 number [12] for register admin
      ''')
-    user_input = input("Enter your number:")
+    user_input = input("Enter your number: ")
     if user_input == "17":
         print('''
     --> Welcome to login <---"
     import [username] & [password]
             ''')
-        User.login()
-        user_input = input("Enter your number")
+        print(User.login())
+        #user_input = input("Enter your number: ")
     if user_input == "12":
         print('''
-**** Welcome to Register Admin ****"
+**** Register Admin ****"
 import your information for login as ADMIN
                 ''')
         firstname = input("please enter your firstname: ")
@@ -69,11 +69,10 @@ import your information for login as ADMIN
         username = input("please enter your <<phone_number>> for username: ")
         password = input("please enter your password: ")
         print(User.register_admin(firstname, lastname, username, password))
-        if User.register_admin():
-            break
+        break
     if user_input == "10":
         print('''
-**** welcome to Register Customer ****
+**** Register Customer ****
 import your information for login as Customer
         ''')
         firstname = input("please enter your firstname: ")
@@ -81,14 +80,13 @@ import your information for login as Customer
         username = input("please enter your <<phone_number>> for username: ")
         password = input("please enter your password: ")
         print(User.register_customer(firstname, lastname, username, password))
-        if User.register_customer():
-            break
+        break
 print('''
---> Welcome to login <---"
-import [username] & [password]
+**** Welcome to login ****"
+import [username] & [password] for login
 ''')
-User.login()
-print(Session.get_session())
+print(User.login())
+print("------------------welcome--------------------")
 print_task(admin_athorities)
 user_input = input("Enter your number: ")
 while Session.get_session():
@@ -143,10 +141,7 @@ while Session.get_session():
         print(User.get_all_user())
 
     if user_input == "10":
-        print('''
-    **** welcome to my online shop ****
-    import your information for login as Customer
-    ''')
+        print("**** Register Customer ****")
         firstname = input("please enter your firstname: ")
         lastname = input("please enter your lastname: ")
         username = input("please enter your <<phone_number>> for username: ")
@@ -154,10 +149,7 @@ while Session.get_session():
         print(User.register_customer(firstname, lastname, username, password))
 
     if user_input == "11":
-        print('''
-    **** welcome to my online shop ****
-    import your information for login as Employee
-    ''')
+        print("**** Register Employee ****")
         firstname = input("please enter your firstname: ")
         lastname = input("please enter your lastname: ")
         username = input("please enter your <<phone_number>> for username: ")
@@ -165,10 +157,7 @@ while Session.get_session():
         print(User.register_employee(firstname, lastname, username, password))
 
     if user_input == "12":
-        print('''
-    **** welcome to my online shop ****
-    import your information for login as Admin
-    ''')
+        print("**** Register Admin ****")
         firstname = input("please enter your firstname: ")
         lastname = input("please enter your lastname: ")
         username = input("please enter your <<phone_number>> for username: ")

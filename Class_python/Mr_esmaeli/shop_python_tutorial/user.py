@@ -7,6 +7,8 @@ class User:
 
     @classmethod
     def register_admin(cls, first_name: str = None, last_name: str = None, username: str = None, password: str = None):
+        if Session.is_employee() or Session.is_customer():
+            return "you don't have any permission "
         if not cls.check_user(first_name, last_name):
             user = {
                 "first_name": first_name,
@@ -90,27 +92,30 @@ password   : {password}
     def login(cls):
         username = input("phone_number for username: ")
         password = input("password: ")
-        if username and password:
-            if not cls.check_login(username, password):
-                for user in cls.__user_db:
-                    if user.get("username") == username and user.get("password") == password:
-
+        if not username or not password:
+            return "you forgot enter username & password"
+        if cls.check_login(username, password):
+            return f"user with this username: {username} & password: {password}  login in database"
+        else:
+            for user in cls.__user_db:
+                if user.get("username") == username and user.get("password") == password:
+                    for login in Session.get_session():
+                        Session.get_session().remove(login)
+                    if len(Session.get_session()) == 0:
                         Session.get_session().append(user)
                         return"you login successfully"
-
-                return f'''
- you don't have any permission
+                    return "more than one user login in session"
+            return f'''
+     you don't have any permission
   please first register 
   [12] for register admin
   [10] for register customer
                 '''
 
-            else:
-                return f"user with this username: {username} & password: {password}  login in database"
-        return "you forgot enter username & password"
-
     @classmethod
     def logout(cls, username=None, password=None):
+        if not username or not password:
+            return "you forgot enter username & password"
         if Session.get_session():
             for user in cls.__user_db:
                 if user.get("username") == username and user.get("password") == password:
@@ -118,7 +123,6 @@ password   : {password}
                     return f"user with username: {username} & password: {password} logout"
             return "user not found"
         return "database is empty"
-
 
     @classmethod
     def get_all_user(cls):
@@ -132,12 +136,14 @@ password   : {password}
 #print(User.is_admin("09153218364","safa"))
 #print(User.get_all_user())
 #print(User.check_user("safiyeh","nikkhah"))
-#User.is_admin("safiyeh", "nikkhah", "saf", "09153218364")
-#User.is_employee("alireza", "omidvar", "alio", "09155054160")
+# print(User.register_admin("safiyeh", "nikkhah", "09153218364", "safa"))
+# print(User.login())
+# print(Session.get_session())
+# print(User.register_customer("alireza", "omidvar", "alio", "09155054160"))
 #print(User.check_user("alireza","omidvar"))
 #User.is_employee("alireza", "omidvar", "alio", "09155054160")
 #print(User.get_all_user())
-#print(User.login())
-#print(User.login())
+# print(User.login())
+# print(Session.get_session())
 #print(User.logout("09153218364","safa"))
 #print(User.get_session_user())
